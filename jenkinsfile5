@@ -27,11 +27,11 @@ pipeline {
         stage('Push Docker Image to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh """
-                    echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-                    docker tag ${IMAGE_NAME}:latest ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
-                    docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
-                    """
+                    sh '''
+                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    docker tag myapp-image:latest thevyanshuu/myapp-image:latest
+                    docker push thevyanshuu/myapp-image:latest
+                    '''
                 }
             }
         }
@@ -39,14 +39,14 @@ pipeline {
         stage('Deploy on Remote Server') {
             steps {
                 sshagent(['server-ssh-credentials']) {
-                    sh """
-                    ssh -o StrictHostKeyChecking=no ${TARGET_USER}@${TARGET_SERVER} << EOF
-                    docker stop ${CONTAINER_NAME} || true
-                    docker rm ${CONTAINER_NAME} || true
-                    docker pull ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
-                    docker run -d -p 5001:5001 --name ${CONTAINER_NAME} ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
+                    sh '''
+                    ssh -o StrictHostKeyChecking=no ubuntu@172.31.19.87 << 'EOF'
+                    docker stop myapp-container || true
+                    docker rm myapp-container || true
+                    docker pull thevyanshuu/myapp-image:latest
+                    docker run -d -p 5001:5001 --name myapp-container thevyanshuu/myapp-image:latest
                     EOF
-                    """
+                    '''
                 }
             }
         }
