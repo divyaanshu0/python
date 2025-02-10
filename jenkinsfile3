@@ -40,7 +40,7 @@ pipeline {
                 docker stop ${CONTAINER_NAME} || true
                 docker rm ${CONTAINER_NAME} || true
                 docker pull ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
-                docker run -d -p 5000:5000 --name ${CONTAINER_NAME} ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
+                docker run -d -p 5001:5001 --name ${CONTAINER_NAME} ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
                 """
             }
         }
