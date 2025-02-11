@@ -1,11 +1,11 @@
 pipeline {
-    agent any  // This makes it run on the master node
+    agent any  
 
     environment {
         REPO_URL = "https://github.com/divyaanshu0/python.git"
         BRANCH = "main"
         IMAGE_NAME = "hello-world-app"
-        DOCKER_HUB_USER = "your-dockerhub-username"
+        
     }
 
     stages {
