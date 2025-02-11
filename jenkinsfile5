@@ -1,14 +1,14 @@
 pipeline {
-    agent any  // Runs on the Jenkins master node
+    agent any  
 
     environment {
         REPO_URL = "https://github.com/divyaanshu0/python.git"
         BRANCH = "main"
-        IMAGE_NAME = "myapp-image"  // Updated image name
-        CONTAINER_NAME = "myapp-container"  // Updated container name
+        IMAGE_NAME = "myapp-image"  
+        CONTAINER_NAME = "myapp-container"  
         DOCKER_HUB_USER = "thevyanshuu"
-        TARGET_SERVER = "172.31.19.87"  // Private IP of the target server
-        TARGET_USER = "ubuntu"  // Default user for Ubuntu instances
+        TARGET_SERVER = "172.31.19.87"  
+        TARGET_USER = "ubuntu"  
     }
 
     stages {
